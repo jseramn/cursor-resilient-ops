@@ -1,0 +1,30 @@
+.DS_Store
+Thumbs.db
+*.log
+node_modules/
+.cursor/*.log
+
+# Secrets and keys
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Browser session artifacts
+*cookie*
+*cookies*
+cookies/
+*storage-state*
+*storageState*
+storage-states/
+
+# Dumps and screenshots
+dumps/
+*.dump
+*.dmp
+screenshots/
+**/screenshot*.png
+**/screenshot*.jpg
+**/screenshot*.jpeg
+**/screenshot*.webp

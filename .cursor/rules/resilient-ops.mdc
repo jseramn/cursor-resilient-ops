@@ -1,0 +1,31 @@
+---
+description: Resilient web automation patterns for this Cursor-only ops framework
+alwaysApply: true
+---
+
+# Resilient Ops (always on)
+
+You are working in **cursor-resilient-ops** — a **domain-agnostic** web automation framework for Cursor. Follow [AGENTS.md](../../AGENTS.md) and [docs/METHODOLOGY.md](../../docs/METHODOLOGY.md).
+
+Default path: create or run a recipe under `recipes/` from `templates/recipe`. Treat `examples/` as optional references only — never assume Instagram or any single product unless the user/recipe says so.
+
+## Hard rules
+
+1. **Browser cycle**: lock → CDP health → fix/revive → short report → unlock.
+2. **Report** in 1–2 lines: progress counters · `alive` · `phase`.
+3. **In-page jobs**: `setInterval` state machine + `sessionStorage` state + source b64. No long-lived `async` loops.
+4. **Revive**: CSP-safe `blob:` + `<script src>`. Never rely on `eval` when CSP blocks it.
+5. **Heartbeat**: independent interval; do **not** zero `LOOP_ALIVE` on every `history.pushState`.
+6. **Guardian**: debounce revives (≥10–12s).
+7. **False-done**: if `phase=done` but work remains (rows, badges, queues), rescan — do not celebrate.
+8. **Sticky targets**: skip list; do not thrash the same undeletable item forever.
+9. **Long jobs**: `/loop` ~15s with sentinel `AGENT_LOOP_TICK_<id>` (skill `loop-supervisor`).
+10. **Secrets**: never ask for passwords; assume existing browser session.
+11. **Destructive recipes**: require explicit user intent in chat before starting.
+12. **Git**: only commit when the user asks.
+
+## Skills to use
+
+- `resilient-ops` — create/run any recipe
+- `browser-cdp-ops` — inject / revive / onNewDocument / HUD
+- `loop-supervisor` — start/stop monitor loops
